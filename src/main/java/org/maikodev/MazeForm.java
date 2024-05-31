@@ -1,9 +1,11 @@
 package org.maikodev;
 
 import javax.swing.*;
+import javax.swing.event.EventListenerList;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
-public class MazeForm extends JFrame {
+public class MazeForm extends JFrame implements IObservable {
     public MazeForm(Dimension frameDimensions, Dimension screenDimensions) {
         Point centerPoint = new Point(screenDimensions.width / 2 - frameDimensions.width / 2, screenDimensions.height / 2 - frameDimensions.height / 2);
 
@@ -19,6 +21,28 @@ public class MazeForm extends JFrame {
         setVisible(true);
     }
 
+    @Override
+    public void addActionListener(ActionListener listener) {
+        listenerList.add(ActionListener.class, listener);
+    }
+
+    @Override
+    public void removeActionListener(ActionListener listener) {
+        listenerList.remove(ActionListener.class, listener);
+    }
+
+    public ActionListener[] getActionListeners() {
+        return listenerList.getListeners(ActionListener.class);
+    }
+
+    public int getRows() {
+        return (int)rowSpinner.getValue();
+    }
+
+    public int getColumns() {
+        return (int)columnSpinner.getValue();
+    }
+
     private void InitForm() {
 
     }
@@ -29,6 +53,8 @@ public class MazeForm extends JFrame {
         columnSpinner = new JSpinner(new SpinnerNumberModel(10, 10, 50, 1));
         rowSpinner = new JSpinner(new SpinnerNumberModel(10, 10, 50, 1));
     }
+
+    private EventListenerList listenerList;
 
     private JPanel formPanel;
     private JButton generateButton;

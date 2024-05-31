@@ -4,16 +4,16 @@ import java.awt.*;
 
 public class App {
     App() {
-        applicationFrame = new MazeForm(MINIMUM_APP_DIMENSIONS, USER_SCREEN_DIMENSIONS);
+        appFrame = new MazeForm(MINIMUM_APP_DIMENSIONS, USER_SCREEN_DIMENSIONS);
+        appConfig = new AppConfig(appFrame.getRows(), appFrame.getColumns());
     }
 
     public static void main(String[] args) {
         App pathApp = new App();
     }
 
-
-
-    private MazeForm applicationFrame;
+    private MazeForm appFrame;
+    private AppConfig appConfig;
     private static final int MINIMUM_APP_WIDTH = 800;
     private static final int MINIMUM_APP_HEIGHT = 600;
 
