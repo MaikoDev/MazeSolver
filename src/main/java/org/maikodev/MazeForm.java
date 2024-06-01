@@ -9,7 +9,7 @@ public class MazeForm extends JFrame implements IObservable {
     public MazeForm(Dimension frameDimensions, Dimension screenDimensions) {
         Point centerPoint = new Point(screenDimensions.width / 2 - frameDimensions.width / 2, screenDimensions.height / 2 - frameDimensions.height / 2);
 
-//        solveButton.addActionListener(new ButtonListener());
+//      solveButton.addActionListener(new ButtonListener());
 
         add(formPanel);
 
