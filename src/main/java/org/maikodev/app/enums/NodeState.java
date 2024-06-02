@@ -1,4 +1,4 @@
-package org.maikodev;
+package org.maikodev.app.nav;
 
 public enum NodeState {
     Unblocked,

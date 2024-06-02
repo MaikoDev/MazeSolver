@@ -1,4 +1,4 @@
-package org.maikodev;
+package org.maikodev.nav;
 
 public class NavigationNode {
     public NodeState state;
