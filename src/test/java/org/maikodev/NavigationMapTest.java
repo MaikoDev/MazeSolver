@@ -24,7 +24,7 @@ public class NavigationMapTest extends NavigationMap {
         Assert.assertNotNull("fCost table is null!", super.fCostTable);
 
         Assert.assertNotNull("Redirection table is null!", super.redirectionTable);
-        Assert.assertNotNull("Neighbor max-heap array is null!", super.neighborsMaxHeap);
+        //Assert.assertNotNull("Neighbor max-heap array is null!", super.neighborsMaxHeap);
         Assert.assertNotNull("hashToHeapIndexMap is null!", super.hashToHeapIndexMap);
 
         for (short row = 0; row < rowCount; row++) {
