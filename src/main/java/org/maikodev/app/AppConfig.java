@@ -1,4 +1,6 @@
-package org.maikodev;
+package org.maikodev.app;
+
+import org.maikodev.app.enums.AlgorithmType;
 
 import java.awt.*;
 

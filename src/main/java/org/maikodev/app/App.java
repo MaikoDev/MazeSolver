@@ -1,8 +1,10 @@
-package org.maikodev;
+package org.maikodev.app;
+
+import org.maikodev.app.view.MazeForm;
 
 import java.awt.*;
 
-public class App {
+public final class App {
     App() {
         appFrame = new MazeForm(MINIMUM_APP_DIMENSIONS, USER_SCREEN_DIMENSIONS);
         appConfig = new AppConfig(appFrame.getRows(), appFrame.getColumns());

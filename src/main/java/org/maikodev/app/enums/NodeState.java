@@ -1,9 +1,10 @@
-package org.maikodev.app.nav;
+package org.maikodev.app.enums;
 
 public enum NodeState {
     Unblocked,
     Blocked,
     Start,
     End,
-    Visited
+    Visited,
+    Neighbor
 }

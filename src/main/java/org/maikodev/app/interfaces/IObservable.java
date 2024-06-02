@@ -1,4 +1,4 @@
-package org.maikodev.interfaces;
+package org.maikodev.app.interfaces;
 
 import java.awt.event.ActionListener;
 

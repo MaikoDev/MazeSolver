@@ -1,4 +1,4 @@
-package org.maikodev;
+package org.maikodev.app.enums;
 
 public enum AlgorithmType {
     AStar,

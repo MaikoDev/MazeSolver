@@ -1,13 +1,14 @@
-package org.maikodev;
+package org.maikodev.app.view;
 
-import org.maikodev.interfaces.IObservable;
+import org.maikodev.app.enums.AlgorithmType;
+import org.maikodev.app.interfaces.IObservable;
 
 import javax.swing.*;
 import javax.swing.event.EventListenerList;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class MazeForm extends JFrame implements IObservable {
+public final class MazeForm extends JFrame implements IObservable {
     public MazeForm(Dimension frameDimensions, Dimension screenDimensions) {
         Point centerPoint = new Point(screenDimensions.width / 2 - frameDimensions.width / 2, screenDimensions.height / 2 - frameDimensions.height / 2);
 
