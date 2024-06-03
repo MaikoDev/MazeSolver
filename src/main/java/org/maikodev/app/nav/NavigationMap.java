@@ -22,7 +22,7 @@ public class NavigationMap implements IObservable {
         hCostTable = new int[nodeCount];
         fCostTable = new int[nodeCount];
 
-        redirectionTable = new NavPoint[nodeCount];
+        originTable = new NavPoint[nodeCount];
         //neighborsMinHeap = new NodeValueCost[nodeCount];
 
         hashToHeapIndexMap = new HashMap<>();
@@ -33,7 +33,7 @@ public class NavigationMap implements IObservable {
                 int currentIndex = getIndex(row, column, columnCount);
 
                 nodeHashes[currentIndex] = Objects.hash(row, column);
-                redirectionTable[currentIndex] = new NavPoint(row, column);
+                originTable[currentIndex] = new NavPoint(row, column);
             }
         }
     }
@@ -73,7 +73,7 @@ public class NavigationMap implements IObservable {
         hCostTable[contiguousIndex] = 0;
         fCostTable[contiguousIndex] = 0;
 
-        NavPoint originNode = redirectionTable[contiguousIndex];
+        NavPoint originNode = originTable[contiguousIndex];
 
         originNode.row = row;
         originNode.column = column;
@@ -107,7 +107,7 @@ public class NavigationMap implements IObservable {
     protected int[] hCostTable;
     protected int[] fCostTable;
 
-    protected NavPoint[] redirectionTable;
+    protected NavPoint[] originTable;
 
     /* Binary Heap for lowest fCost Neighbor */
     protected int[] fCostMinHeap;

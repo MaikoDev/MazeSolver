@@ -23,18 +23,18 @@ public class NavigationMapTest extends NavigationMap {
         Assert.assertNotNull("hCost table is null!", super.hCostTable);
         Assert.assertNotNull("fCost table is null!", super.fCostTable);
 
-        Assert.assertNotNull("Redirection table is null!", super.redirectionTable);
+        Assert.assertNotNull("Origin table is null!", super.originTable);
         //Assert.assertNotNull("Neighbor max-heap array is null!", super.neighborsMaxHeap);
         Assert.assertNotNull("hashToHeapIndexMap is null!", super.hashToHeapIndexMap);
 
         for (short row = 0; row < rowCount; row++) {
             for (short column = 0; column < columnCount; column++) {
-                NavPoint currentNode = redirectionTable[getIndex(row, column, super.columnCount)];
+                NavPoint currentNode = originTable[getIndex(row, column, super.columnCount)];
 
                 String nodeString = String.format("(%d, %d)", row, column);
                 String entryInitError = String.format("%s entry is not properly initialized!", nodeString);
 
-                Assert.assertNotNull(String.format("%s entry in redirectionTable is null!", nodeString), currentNode);
+                Assert.assertNotNull(String.format("%s entry in originTable is null!", nodeString), currentNode);
                 Assert.assertEquals(entryInitError, row, currentNode.row);
                 Assert.assertEquals(entryInitError, column, currentNode.column);
             }
