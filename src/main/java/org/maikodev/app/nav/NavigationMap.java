@@ -5,6 +5,7 @@ import org.maikodev.app.enums.NodeState;
 
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class NavigationMap implements IObservable {
@@ -52,6 +53,32 @@ public class NavigationMap implements IObservable {
         return null;
     }
 
+    protected void selectStart(short row, short column) {
+        if (!(startPoint == null)) return;
+    }
+
+    protected void selectEnd(short row, short column) {
+
+    }
+
+    protected void addNeighbor(short row, short column, short originRow, short originColumn) {
+
+    }
+
+    protected void resetNode(short row, short column) {
+        int contiguousIndex = getIndex(row, column, columnCount);
+
+        nodeStates[contiguousIndex] = NodeState.Unblocked;
+        gCostTable[contiguousIndex] = 0;
+        hCostTable[contiguousIndex] = 0;
+        fCostTable[contiguousIndex] = 0;
+
+        NavPoint originNode = redirectionTable[contiguousIndex];
+
+        originNode.row = row;
+        originNode.column = column;
+    }
+
     protected void addNeighborToHeap(int traversalCost, NavPoint neighborPoint) {
 
     }
@@ -69,20 +96,24 @@ public class NavigationMap implements IObservable {
     protected int nodeCount;
     protected int neighborsCount;
 
+    protected NavPoint startPoint;
+    protected NavPoint endPoint;
+
     /* Contiguous arrays for node state */
     protected NodeState[] nodeStates;
+
     protected int[] nodeHashes;
     protected int[] gCostTable;
     protected int[] hCostTable;
     protected int[] fCostTable;
+
     protected NavPoint[] redirectionTable;
 
     /* Binary Heap for lowest fCost Neighbor */
-    //protected NodeValueCost[] neighborsMinHeap;
     protected int[] fCostMinHeap;
-    protected int[][] hCostMinHeap;
+    //protected NodeValueCost[] neighborsMinHeap;
 
-    /* Look-up */
+    protected HashMap<Integer, List<NodeValueCost>> neighborsMap;
     protected HashMap<Integer, Integer> hashToHeapIndexMap;
     //protected HashMap<>
 }
