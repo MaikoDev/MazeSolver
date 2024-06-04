@@ -25,7 +25,8 @@ public class NavigationMapTest extends NavigationMap {
 
         Assert.assertNotNull("Origin table is null!", super.originTable);
         //Assert.assertNotNull("Neighbor max-heap array is null!", super.neighborsMaxHeap);
-        Assert.assertNotNull("hashToHeapIndexMap is null!", super.hashToHeapIndexMap);
+        Assert.assertNotNull("hashToFCostIndexMap is null!", super.hashToFCostIndexMap);
+        Assert.assertNotNull("hashToHCostIndexMap is null!", super.hashToHCostIndexMap);
 
         for (short row = 0; row < rowCount; row++) {
             for (short column = 0; column < columnCount; column++) {
@@ -39,5 +40,23 @@ public class NavigationMapTest extends NavigationMap {
                 Assert.assertEquals(entryInitError, column, currentNode.column);
             }
         }
+    }
+
+    @Test
+    public void balanceFHeapDown_test_balance_children_up_to_parent() {
+        fCostMinHeap = new int[] { 2, 3, 17, 9, 10, 20, 31, 12, 45 };
+        fCostHeapSize = fCostMinHeap.length;
+
+        fCostMinHeap = new int[] { 2, 3, 45, 9, 10, 20, 31, 12 };
+        fCostHeapSize = fCostMinHeap.length;
+
+        balanceFHeapDown(2);
+        Assert.assertArrayEquals(new int[]{ 2, 3, 20, 9, 10, 45, 31, 12 }, fCostMinHeap);
+
+        fCostMinHeap = new int[] { 2, 45, 17, 9, 10, 20, 31, 12 };
+        fCostHeapSize = fCostMinHeap.length;
+
+        balanceFHeapDown(1);
+        Assert.assertArrayEquals(new int[]{ 2, 9, 17, 12, 10, 20, 31, 45 }, fCostMinHeap);
     }
 }
