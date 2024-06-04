@@ -23,9 +23,13 @@ public class NavigationMap implements IObservable {
         fCostTable = new int[nodeCount];
 
         originTable = new NavPoint[nodeCount];
-        //neighborsMinHeap = new NodeValueCost[nodeCount];
 
-        hashToHeapIndexMap = new HashMap<>();
+        fCostMinHeap = new int[nodeCount];
+        hCostMinHeap = new int[nodeCount][];
+
+        neighborsMap = new HashMap<>();
+        hashToFCostIndexMap = new HashMap<>();
+        hashToHCostIndexMap = new HashMap<>();
 
         // Setup Redirection table //
         for (short row = 0; row < rowCount; row++) {
@@ -57,6 +61,7 @@ public class NavigationMap implements IObservable {
         if (!(startPoint == null)) return;
     }
 
+    /* We must reprocess all hCost once a end point has been placed */
     protected void selectEnd(short row, short column) {
 
     }
@@ -77,14 +82,84 @@ public class NavigationMap implements IObservable {
 
         originNode.row = row;
         originNode.column = column;
-    }
 
-    protected void addNeighborToHeap(int traversalCost, NavPoint neighborPoint) {
 
     }
 
-    protected void addNeighborToHeap(int traversalCost, int neighborRow, int neighborColumn) {
-        //NodeValueCost
+    /* Used primarily when a node transitions into a Visited node */
+    protected void modifyNode(short nodeRow, short nodeColumn, NodeState nodeState) {
+        int nodeIndex = getIndex(nodeRow, nodeColumn, columnCount);
+        nodeStates[nodeIndex] = nodeState;
+    }
+
+    /* Used primarily when updating a neighbor to a shorter gCost route */
+    protected void modifyNode(short nodeRow, short nodeColumn, int gCost, short originRow, short originColumn) {
+        int nodeIndex = getIndex(nodeRow, nodeColumn, columnCount);
+
+        gCostTable[nodeIndex] = gCost;
+
+        NavPoint nodeOrigin = originTable[nodeIndex];
+        nodeOrigin.row = originRow;
+        nodeOrigin.column = originColumn;
+
+        fCostTable[nodeIndex] = updateFCost(nodeHashes[nodeIndex], gCost + hCostTable[nodeIndex]);
+    }
+
+    /* Used primarily when first discovering a new a neighbor node */
+    protected void modifyNode(short nodeRow, short nodeColumn, NodeState nodeState, int gCost, short originRow, short originColumn) {
+        int nodeIndex = getIndex(nodeRow, nodeColumn, columnCount);
+
+        nodeStates[nodeIndex] = nodeState;
+        gCostTable[nodeIndex] = gCost;
+
+        NavPoint nodeOrigin = originTable[nodeIndex];
+        nodeOrigin.row = originRow;
+        nodeOrigin.column = originColumn;
+
+        fCostTable[nodeIndex] = updateFCost(nodeHashes[nodeIndex], gCost + hCostTable[nodeIndex]);
+    }
+
+    protected int updateFCost(int nodeHash, int fCost) {
+        int fCostMinHeapIndex = hashToFCostIndexMap.get(nodeHash);
+        int currentFCost = fCostMinHeap[fCostMinHeapIndex];
+
+        if (currentFCost == fCost) return currentFCost;
+
+        int numOfSimilarCostNeighbors = neighborsMap.get(currentFCost).size();
+
+        /* Determine if we need to re-balance fCostMinHeap */
+        if (numOfSimilarCostNeighbors == 1) {
+
+
+        }
+
+        neighborsMap.remove(fCostMinHeapIndex);
+        return -1;
+    }
+
+    protected void balanceFHeapDown(int parentIndex) {
+        int selectedIndex = parentIndex;
+
+        boolean isLeftChildInRange = parentIndex + (parentIndex + 1) < fCostHeapSize;
+        boolean isRightChildInRange = parentIndex + (parentIndex + 2) < fCostHeapSize;
+
+        if (isLeftChildInRange && isRightChildInRange) {
+            int leftChildIndex = parentIndex + (parentIndex + 1);
+            int rightChildIndex = parentIndex + (parentIndex + 2);
+
+            selectedIndex = (fCostMinHeap[leftChildIndex] < fCostMinHeap[selectedIndex]) ? leftChildIndex : selectedIndex;
+            selectedIndex = (fCostMinHeap[rightChildIndex] < fCostMinHeap[selectedIndex]) ? rightChildIndex : selectedIndex;
+        } else if (isLeftChildInRange) {
+            selectedIndex = parentIndex + (parentIndex + 1);
+        } else {
+            return;
+        }
+
+        int previous = fCostMinHeap[parentIndex];
+        fCostMinHeap[parentIndex] = fCostMinHeap[selectedIndex];
+        fCostMinHeap[selectedIndex] = previous;
+
+        balanceFHeapDown(selectedIndex);
     }
 
     protected static int getIndex(short row, short column, short maxColumns) {
@@ -94,7 +169,9 @@ public class NavigationMap implements IObservable {
     protected short rowCount;
     protected short columnCount;
     protected int nodeCount;
-    protected int neighborsCount;
+
+    protected int fCostHeapSize;
+    protected int hCostHeapSize;
 
     protected NavPoint startPoint;
     protected NavPoint endPoint;
@@ -109,11 +186,15 @@ public class NavigationMap implements IObservable {
 
     protected NavPoint[] originTable;
 
-    /* Binary Heap for lowest fCost Neighbor */
+    /* Binary Heap for lowest f & h cost Neighbor */
     protected int[] fCostMinHeap;
-    //protected NodeValueCost[] neighborsMinHeap;
+    protected int[][] hCostMinHeap;
 
-    protected HashMap<Integer, List<NodeValueCost>> neighborsMap;
-    protected HashMap<Integer, Integer> hashToHeapIndexMap;
+    // neighborsMap<fCost, HashMap<hCost, NavPoint>> neighborsMap;
+    protected HashMap<Integer, HashMap<Integer, List<NavPoint>>> neighborsMap;
+
+    /* Look ups */
+    protected HashMap<Integer, Integer> hashToFCostIndexMap;
+    protected HashMap<Integer, Integer> hashToHCostIndexMap;
     //protected HashMap<>
 }
