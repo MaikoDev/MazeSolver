@@ -43,20 +43,29 @@ public class NavigationMapTest extends NavigationMap {
     }
 
     @Test
-    public void balanceFHeapDown_test_balance_children_up_to_parent() {
+    public void balanceHeapUp_test_balance_parents_up_from_child() {
+        fCostMinHeap = new int[] { 2, 3, 17, 9, 10, 20, 31, 12, 1 };
+        fCostHeapSize = fCostMinHeap.length;
+
+        balanceHeapUp(fCostMinHeap, fCostHeapSize, fCostMinHeap.length - 1);
+        Assert.assertArrayEquals(new int[]{ 1, 2, 17, 3, 10, 20, 31, 12, 9 }, fCostMinHeap);
+    }
+
+    @Test
+    public void balanceHeapDown_test_balance_children_bottom_upto_parent() {
         fCostMinHeap = new int[] { 2, 3, 17, 9, 10, 20, 31, 12, 45 };
         fCostHeapSize = fCostMinHeap.length;
 
         fCostMinHeap = new int[] { 2, 3, 45, 9, 10, 20, 31, 12 };
         fCostHeapSize = fCostMinHeap.length;
 
-        balanceFHeapDown(2);
+        balanceHeapDown(fCostMinHeap, fCostHeapSize, 2);
         Assert.assertArrayEquals(new int[]{ 2, 3, 20, 9, 10, 45, 31, 12 }, fCostMinHeap);
 
         fCostMinHeap = new int[] { 2, 45, 17, 9, 10, 20, 31, 12 };
         fCostHeapSize = fCostMinHeap.length;
 
-        balanceFHeapDown(1);
+        balanceHeapDown(fCostMinHeap, fCostHeapSize,1);
         Assert.assertArrayEquals(new int[]{ 2, 9, 17, 12, 10, 20, 31, 45 }, fCostMinHeap);
     }
 }
