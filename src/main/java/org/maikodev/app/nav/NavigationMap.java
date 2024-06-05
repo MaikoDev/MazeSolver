@@ -137,8 +137,18 @@ public class NavigationMap implements IObservable {
         return -1;
     }
 
-    protected void balanceHeapUp(int parentIndex) {
+    protected void balanceHeapUp(int[] minHeap, int heapSize, int childIndex) {
+        if (childIndex > heapSize || childIndex <= 0) return;
 
+        int parentIndex = (childIndex - 1) / 2;
+
+        if (!(minHeap[childIndex] < minHeap[parentIndex])) return;
+
+        int previous = minHeap[parentIndex];
+        minHeap[parentIndex] = minHeap[childIndex];
+        minHeap[childIndex] = previous;
+
+        balanceHeapUp(minHeap, heapSize, parentIndex);
     }
 
     protected void balanceHeapDown(int[] minHeap, int heapSize, int parentIndex) {
