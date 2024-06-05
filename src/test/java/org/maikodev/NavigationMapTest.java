@@ -68,4 +68,20 @@ public class NavigationMapTest extends NavigationMap {
         balanceHeapDown(fCostMinHeap, fCostHeapSize,1);
         Assert.assertArrayEquals(new int[]{ 2, 9, 17, 12, 10, 20, 31, 45 }, fCostMinHeap);
     }
+
+    @Test
+    public void binLogBase2_test_returns_log_base2() {
+        Assert.assertEquals(0, binLogBase2(1));
+        Assert.assertEquals(1, binLogBase2(2));
+        Assert.assertEquals(1, binLogBase2(3));
+        Assert.assertEquals(2, binLogBase2(4));
+        Assert.assertEquals(2, binLogBase2(5));
+        Assert.assertEquals(2, binLogBase2(6));
+        Assert.assertEquals(2, binLogBase2(7));
+        Assert.assertEquals(3, binLogBase2(8));
+        Assert.assertEquals(3, binLogBase2(14));
+        Assert.assertEquals(3, binLogBase2(15));
+        Assert.assertEquals(4, binLogBase2(16));
+        Assert.assertEquals(4, binLogBase2(30));
+    }
 }
