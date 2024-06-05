@@ -137,29 +137,33 @@ public class NavigationMap implements IObservable {
         return -1;
     }
 
-    protected void balanceFHeapDown(int parentIndex) {
+    protected void balanceHeapUp(int parentIndex) {
+
+    }
+
+    protected void balanceHeapDown(int[] minHeap, int heapSize, int parentIndex) {
         int selectedIndex = parentIndex;
 
-        boolean isLeftChildInRange = parentIndex + (parentIndex + 1) < fCostHeapSize;
-        boolean isRightChildInRange = parentIndex + (parentIndex + 2) < fCostHeapSize;
+        boolean isLeftChildInRange = parentIndex + (parentIndex + 1) < heapSize;
+        boolean isRightChildInRange = parentIndex + (parentIndex + 2) < heapSize;
 
         if (isLeftChildInRange && isRightChildInRange) {
             int leftChildIndex = parentIndex + (parentIndex + 1);
             int rightChildIndex = parentIndex + (parentIndex + 2);
 
-            selectedIndex = (fCostMinHeap[leftChildIndex] < fCostMinHeap[selectedIndex]) ? leftChildIndex : selectedIndex;
-            selectedIndex = (fCostMinHeap[rightChildIndex] < fCostMinHeap[selectedIndex]) ? rightChildIndex : selectedIndex;
+            selectedIndex = (minHeap[leftChildIndex] < minHeap[selectedIndex]) ? leftChildIndex : selectedIndex;
+            selectedIndex = (minHeap[rightChildIndex] < minHeap[selectedIndex]) ? rightChildIndex : selectedIndex;
         } else if (isLeftChildInRange) {
             selectedIndex = parentIndex + (parentIndex + 1);
         } else {
             return;
         }
 
-        int previous = fCostMinHeap[parentIndex];
-        fCostMinHeap[parentIndex] = fCostMinHeap[selectedIndex];
-        fCostMinHeap[selectedIndex] = previous;
+        int previous = minHeap[parentIndex];
+        minHeap[parentIndex] = minHeap[selectedIndex];
+        minHeap[selectedIndex] = previous;
 
-        balanceFHeapDown(selectedIndex);
+        balanceHeapDown(minHeap, heapSize, selectedIndex);
     }
 
     protected static int getIndex(short row, short column, short maxColumns) {
